@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+sqlalchemy[asyncio]
+asyncpg
+redis
+websockets
+
+deepgram-sdk
