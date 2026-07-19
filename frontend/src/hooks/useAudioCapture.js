@@ -7,6 +7,7 @@ export function useAudioCapture(wsUrl){
     const streamRef = useRef(null)
     const [status, setStatus] = useState('idle');
     const [transcript, setTranscript] = useState('');
+    const [assistantReply, setAssistantReply] = useState('');
 
     const start = useCallback(async ()=>{
         setStatus('connecting');
@@ -40,10 +41,15 @@ export function useAudioCapture(wsUrl){
             try {
                 const msg = JSON.parse(event.data);
                 if (msg.type === 'transcript' && msg.text) {
-                    setTranscript(prev => msg.is_final ? prev + ' ' + msg.text : prev);
                     console.log(msg.is_final ? 'FINAL:' : 'interim:', msg.text);
-                }else if(msg.type === 'utterance_complete'){
-                    console.log('TURN COMPLETE:', msg.text)
+                } else if (msg.type === 'utterance_complete') {
+                    console.log('TURN COMPLETE:', msg.text);
+                } else if (msg.type === 'llm_start') {
+                    setAssistantReply('');
+                } else if (msg.type === 'llm_token') {
+                    setAssistantReply(prev => prev + msg.text);
+                } else if (msg.type === 'llm_end') {
+                    console.log('LLM done:', msg.text);
                 }
             } catch (e) {
                 console.error('bad message', event.data);
@@ -61,5 +67,5 @@ export function useAudioCapture(wsUrl){
         setStatus('idle');
     },[])
 
-    return {start, stop, status, transcript}
+    return {start, stop, status, transcript, assistantReply }
 }
