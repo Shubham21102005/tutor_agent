@@ -42,6 +42,8 @@ export function useAudioCapture(wsUrl){
                 if (msg.type === 'transcript' && msg.text) {
                     setTranscript(prev => msg.is_final ? prev + ' ' + msg.text : prev);
                     console.log(msg.is_final ? 'FINAL:' : 'interim:', msg.text);
+                }else if(msg.type === 'utterance_complete'){
+                    console.log('TURN COMPLETE:', msg.text)
                 }
             } catch (e) {
                 console.error('bad message', event.data);
