@@ -18,3 +18,6 @@ def append_message(session_id: str, role: str, content: str) -> None:
 
 def clear_session(session_id: str) -> None:
     _session_histories.pop(session_id, None)
+
+def append_raw(session_id:str, raw:dict):
+    get_history(session_id).append(raw)

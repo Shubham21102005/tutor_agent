@@ -1,4 +1,5 @@
 import { useAudioCapture } from './hooks/useAudioCapture';
+import { Whiteboard } from './components/Whiteboard';
 
 function App() {
   const { start, stop, status, transcript, assistantReply } = useAudioCapture(
@@ -12,6 +13,7 @@ function App() {
       <button onClick={stop} disabled={status === 'idle'}>Stop</button>
       <p><strong>You:</strong> {transcript}</p>
       <p><strong>Tutor:</strong> {assistantReply}</p>
+      <Whiteboard />
     </div>
   );
 }

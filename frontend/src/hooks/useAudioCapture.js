@@ -1,6 +1,6 @@
 import { useRef, useCallback, useState } from 'react';
 import { useAudioPlayback } from './useAudioPlayback';
-
+import { useWhiteboardStore } from '../store/whiteboardStore';
 export function useAudioCapture(wsUrl) {
     const wsRef = useRef(null);
     const audioCtxRef = useRef(null);
@@ -67,6 +67,12 @@ export function useAudioCapture(wsUrl) {
                     setAssistantReply(prev => prev + msg.text);
                 } else if (msg.type === 'llm_end') {
                     console.log('LLM done:', msg.text);
+                } else if (msg.type === 'whiteboard_action') {
+                    if (msg.action === 'clear_board') {
+                        useWhiteboardStore.getState().clearBoard();
+                    } else {
+                        useWhiteboardStore.getState().addElement(msg.action, msg.payload);
+                    }
                 }
             } catch (e) {
                 console.error('bad message', event.data, e);
