@@ -1,12 +1,7 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
 import { useAudioCapture } from './hooks/useAudioCapture';
 
 function App() {
-  const { start, stop, status, transcript,assistantReply  } = useAudioCapture(
+  const { start, stop, status, transcript, assistantReply } = useAudioCapture(
     `${import.meta.env.VITE_WS_URL}/ws/session/test-session`
   );
 
@@ -21,4 +16,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
